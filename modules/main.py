@@ -13,7 +13,7 @@ import cloudscraper
 import m3u8
 import core as helper
 from utils import progress_bar
-from vars import API_ID, API_HASH, BOT_TOKEN
+from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
 from aiohttp import ClientSession
 from pyromod import listen
 from subprocess import getstatusoutput
@@ -261,7 +261,7 @@ async def restart_handler(_, m):
 
 @bot.on_message(filters.command(["addauth"]))
 async def addauth_handler(client: Client, m: Message):
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text("❌ Only owner can use this command.")
     parts = m.text.split()
     if len(parts) < 2:
@@ -276,7 +276,7 @@ async def addauth_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command(["rmauth"]))
 async def rmauth_handler(client: Client, m: Message):
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text("❌ Only owner can use this command.")
     parts = m.text.split()
     if len(parts) < 2:
@@ -291,7 +291,7 @@ async def rmauth_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command(["users"]))
 async def allusers_handler(client: Client, m: Message):
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text("❌ Only owner can use this command.")
     if not auth_users:
         return await m.reply_text("📋 No authorized users yet.")
@@ -304,7 +304,7 @@ async def allusers_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command(["broadcast"]))
 async def broadcast_handler(client: Client, m: Message):
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text("❌ Only owner can use this command.")
     if not m.reply_to_message:
         return await m.reply_text("📢 Reply to a message to broadcast it.")
@@ -331,7 +331,7 @@ async def broadcast_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command(["broadusers"]))
 async def broadusers_handler(client: Client, m: Message):
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text("❌ Only owner can use this command.")
     total = len(broadcast_users)
     if total == 0:
@@ -347,7 +347,7 @@ async def broadusers_handler(client: Client, m: Message):
 @bot.on_message(filters.command(["changeapi"]))
 async def changeapi_handler(client: Client, m: Message):
     global PWAPI1, PWAPI2
-    if m.from_user.id != OWNER_ID:
+    if m.from_user.id != OWNER:
         return await m.reply_text(
             "To change your Api in your Repository in this format👇🏻.\n\n"
             "/changeapi New Api Here\n**https... to .com/pw** tak Only😁.\n\n"
@@ -379,7 +379,7 @@ async def txt_handler(bot: Client, m: Message):
     x = await input.download()
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
-    credit = f"@SunilChoudhary08"
+    credit = f"@SmartBoy_ApnaMS"
     token = f"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYxNTE3MzAuMTI2LCJkYXRhIjp7Il9pZCI6IjYzMDRjMmY3Yzc5NjBlMDAxODAwNDQ4NyIsInVzZXJuYW1lIjoiNzc2MTAxNzc3MCIsImZpcnN0TmFtZSI6IkplZXYgbmFyYXlhbiIsImxhc3ROYW1lIjoic2FoIiwib3JnYW5pemF0aW9uIjp7Il9pZCI6IjVlYjM5M2VlOTVmYWI3NDY4YTc5ZDE4OSIsIndlYnNpdGUiOiJwaHlzaWNzd2FsbGFoLmNvbSIsIm5hbWUiOiJQaHlzaWNzd2FsbGFoIn0sImVtYWlsIjoiV1dXLkpFRVZOQVJBWUFOU0FIQEdNQUlMLkNPTSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNTU0NjkzMH0.iImf90mFu_cI-xINBv4t0jVz-rWK1zeXOIwIFvkrS0M"
     try:    
         with open(x, "r") as f:
@@ -390,7 +390,7 @@ async def txt_handler(bot: Client, m: Message):
             links.append(i.split("://", 1))
         os.remove(x)
     except:
-        await m.reply_text("Hello darling.🌚🤣")
+        await m.reply_text("Ohho Mera Bachcha 🫂🌚🤣.")
         os.remove(x)
         return
    
@@ -442,11 +442,11 @@ async def txt_handler(bot: Client, m: Message):
     else:
         CR = raw_text3
         
-    await editable.edit("**Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋  or send '/SK' for use default🎀**")
+    await editable.edit("**Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋  or send '/VIP' for use default🎀**")
     input4: Message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
     await input4.delete(True)
-    if raw_text4 == '/SK':
+    if raw_text4 == '/VIP':
         MR = token
     else:
         MR = raw_text4
@@ -525,8 +525,8 @@ async def txt_handler(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**📹 VID_ID: {str(count).zfill(3)}.\n\n📝 Title: {name1} {res}.mkv\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🤍 𝑻𝒉𝒆 𝑺𝑲 🤍━━━👑**'
-                cc1 = f'**💾 PDF_ID: {str(count).zfill(3)}.\n\n📝 Title: {name1} .pdf\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🤍 𝑻𝒉𝒆 𝑺𝑲 🤍━━━👑**'
+                cc = f'**📹 VID_ID: {str(count).zfill(3)}.\n\n📝 Title: {name1} {res}.mkv\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 Extracted By♠ :\n {CR}\n\n**👑━━━💙 𝑻𝒉𝒆 𝑺𝑲 🩷━━━👑**'
+                cc1 = f'**💾 PDF_ID: {str(count).zfill(3)}.\n\n📝 Title: {name1} .pdf\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 Extracted By♠ :\n {CR}\n\n**👑━━━💚 𝑻𝒉𝒆 𝑺𝑲 ❤️━━━👑**'
                     
                 
                 if "drive" in url:
@@ -607,14 +607,14 @@ async def txt_handler(bot: Client, m: Message):
 
 # Advance
 
-@bot.on_message(filters.command(["The08"]) )
+@bot.on_message(filters.command(["Sobi"]) )
 async def txt_handler(bot: Client, m: Message):
     editable = await m.reply_text(f"**🔹Hi I am Poweful Lovely TXT Downloader📥 Bot.**\n🔹**Send me the TXT file and Just wait and Watch🥵.**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
-    credit = f"@SunilChoudhary08"
+    credit = f"@SmartBoy_ApnaMS"
     token = f"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYxNTE3MzAuMTI2LCJkYXRhIjp7Il9pZCI6IjYzMDRjMmY3Yzc5NjBlMDAxODAwNDQ4NyIsInVzZXJuYW1lIjoiNzc2MTAxNzc3MCIsImZpcnN0TmFtZSI6IkplZXYgbmFyYXlhbiIsImxhc3ROYW1lIjoic2FoIiwib3JnYW5pemF0aW9uIjp7Il9pZCI6IjVlYjM5M2VlOTVmYWI3NDY4YTc5ZDE4OSIsIndlYnNpdGUiOiJwaHlzaWNzd2FsbGFoLmNvbSIsIm5hbWUiOiJQaHlzaWNzd2FsbGFoIn0sImVtYWlsIjoiV1dXLkpFRVZOQVJBWUFOU0FIQEdNQUlMLkNPTSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNTU0NjkzMH0.iImf90mFu_cI-xINBv4t0jVz-rWK1zeXOIwIFvkrS0M"
     try:    
         with open(x, "r") as f:
@@ -757,8 +757,8 @@ async def txt_handler(bot: Client, m: Message):
 
             try:  
         
-                cc = f'**📹 VID_ID: {str(count).zfill(3)}.\n\nTitle: {name1} STUDENTS💛{res}.mkv\n\n📚 Batch Name: {b_name}\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🤍 𝑻𝒉𝒆 𝑺𝑲 🤍━━━👑**'
-                cc1 = f'**💾 PDF_ID: {str(count).zfill(3)}.\n\nTitle: {name1} STUDENTS💛.pdf\n\n📚 Batch Name: {b_name}\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🤍 𝑻𝒉𝒆 𝑺𝑲 🤍━━━👑**'
+                cc = f'**📹 VID_ID: {str(count).zfill(3)}.\n\nTitle: {name1} STUDENTS💛{res}.mkv\n\n📚 Batch Name: {b_name}\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🩷 𝑻𝒉𝒆 𝑺𝑲 💙━━━👑**'
+                cc1 = f'**💾 PDF_ID: {str(count).zfill(3)}.\n\nTitle: {name1} STUDENTS💛.pdf\n\n📚 Batch Name: {b_name}\n\n📥 Extracted By♠ : {CR}\n\n**👑━━━🖤 𝑻𝒉𝒆 𝑺𝑲 🧡━━━👑**'
                     
                 
                 if "drive" in url:

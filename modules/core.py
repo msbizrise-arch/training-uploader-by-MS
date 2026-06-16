@@ -49,6 +49,12 @@ def sanitize_title(title: str) -> str:
     # Replace slashes and backslashes
     title = re.sub(r'[/\\]+', '-', title)
 
+    # Strip extra risky/decorative symbols entirely
+    title = re.sub(r'''[@#${}\[\]%₹'";!?*()=~`&+,]''', '', title)
+
+    # Collapse multiple dashes created above
+    title = re.sub(r'-{2,}', '-', title)
+
     # Replace ratio / pipe / angle brackets that break paths
     title = re.sub(r'[|<>]', '-', title)
 

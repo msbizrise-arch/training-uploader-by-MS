@@ -28,7 +28,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # ── Owner ID (update this with your actual owner Telegram ID) ────────────────
-OWNER = int(os.environ.get("OWNER", "8446475678"))
+OWNER = int(os.environ.get("OWNER", "8909902924"))
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Live-changeable PW API endpoints (/changeapi command updates both) ───────
@@ -50,7 +50,7 @@ def _save_api(api1: str, api2: str):
         pass
 
 _saved_api1, _saved_api2 = _load_api()
-_default_api = "https://anonymouspwplayerrrrr-e0949ecca662.herokuapp.com/pw"
+_default_api = "https://anonymouspwplayerrrr-c95d81521328.herokuapp.com/pw"
 PWAPI1 = _saved_api1 or os.environ.get("PWAPI1", _default_api)
 PWAPI2 = _saved_api2 or os.environ.get("PWAPI2", _default_api)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -99,16 +99,16 @@ broadcast_users: set = _load_broadcast_users()
 
 # ── Random image list ────────────────────────────────────────────────────────
 image_list = [
-    "https://graph.org/file/0ffe5c1245b874d4a9bf1-3b2481397f6f380c85.jpg",
-    "https://graph.org/file/fae9ed988db074ba5c2f5-ad0a0037cc1bdddbdd.jpg",
-    "https://graph.org/file/d24b9bd4d0592a07ad746-de047531c5efafafce.jpg",
-    "https://graph.org/file/30b2b264822802cfca0e5-955b8cb8bd0ef5da16.jpg",
-    "https://graph.org/file/06d5077e2fe5442e1dbb4-77cb51eecc0aab0608.jpg",
-    "https://graph.org/file/47792b7d2acd7ab812e65-ae8e8c3b1071eb2b23.jpg",
-    "https://graph.org/file/8ea482ae6278601bae5c5-b1475ac9b0622a6cd7.jpg",
-    "https://graph.org/file/648d50f45bf0dd06cd12a-129509de7ebc2c6036.jpg",
-    "https://graph.org/file/5312e32455e56860c75cb-b56bedb77b7cf93227.jpg",
-    "https://graph.org/file/977afb0f88089d227a19d-443ba34add7d83a182.jpg",
+    "https://graph.org/file/28339f6c961ca96a84f47-1a070fdc1632724513.jpg",
+    "https://graph.org/file/b07088988e66447aeb92f-f8c4f26ad5b867aa5a.jpg",
+    "https://graph.org/file/1f2bd4b7d0747a432e3fe-b1229343f6557ba344.jpg",
+    "https://graph.org/file/ce8ebdb5c2ba8932ec780-1737059c6bb976617d.jpg",
+    "https://graph.org/file/41b150f2461004c4fd99a-d29d2bc307f0fe6491.jpg",
+    "https://graph.org/file/7831481e4c899748ee8a1-b976b5e72df8c3618c.jpg",
+    "https://graph.org/file/1d1dab8f4dc33df10e38c-a3c92d386be28422ac.jpg",
+    "https://graph.org/file/a1c4b27984bb61183048c-d11e4d6c9ea09fcedb.jpg",
+    "https://graph.org/file/1d1548631e6d1d3b3796e-b6647f0434c20f100a.jpg",
+    "https://graph.org/file/9db3816e75336ecc45959-6d49ddd4d0e92f1aae.jpg",
 ]
 # ─────────────────────────────────────────────────────────────────────────────
 

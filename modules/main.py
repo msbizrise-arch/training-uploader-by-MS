@@ -32,8 +32,27 @@ OWNER = int(os.environ.get("OWNER", "8446475678"))
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Live-changeable PW API endpoints (/changeapi command updates both) ───────
-PWAPI1 = os.environ.get("PWAPI1", "https://anonymouspwplayerrrrr-e0949ecca662.herokuapp.com/pw")
-PWAPI2 = os.environ.get("PWAPI2", "https://anonymouspwplayerrrrr-e0949ecca662.herokuapp.com/pw")
+API_FILE = "pw_api.json"
+
+def _load_api():
+    try:
+        with open(API_FILE, "r") as f:
+            data = json.load(f)
+            return data.get("PWAPI1"), data.get("PWAPI2")
+    except Exception:
+        return None, None
+
+def _save_api(api1: str, api2: str):
+    try:
+        with open(API_FILE, "w") as f:
+            json.dump({"PWAPI1": api1, "PWAPI2": api2}, f)
+    except Exception:
+        pass
+
+_saved_api1, _saved_api2 = _load_api()
+_default_api = "https://anonymouspwplayerrrrr-e0949ecca662.herokuapp.com/pw"
+PWAPI1 = _saved_api1 or os.environ.get("PWAPI1", _default_api)
+PWAPI2 = _saved_api2 or os.environ.get("PWAPI2", _default_api)
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Persistent Auth Users (JSON-backed, survives bot restart) ────────────────
@@ -388,6 +407,7 @@ async def changeapi_handler(client: Client, m: Message):
     new_api = parts[1].strip()
     PWAPI1 = new_api
     PWAPI2 = new_api
+    _save_api(PWAPI1, PWAPI2)
     await m.reply_text(
         f"**💕✅ᴀᴘɪ ᴄʜᴀɴɢᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ!**\n\n"
         f"🔗 **ɴᴇᴡ ᴀᴘɪ:**\n`{PWAPI1}`\n\n"
@@ -604,7 +624,7 @@ async def txt_handler(bot: Client, m: Message):
              #url = f"https://anonymouspwplayerrr-31d6706c7a3b.herokuapp.com/pw?url={url}?token={raw_text4}"
             #url = f"https://madxapi-d0cbf6ac738c.herokuapp.com/{id}/master.m3u8?token={raw_text4}"
             elif"d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
-             url = f"{PWAPI1}?url={urllib.parse.quote(url, safe='')}&token={raw_text4}"
+             url = f"{PWAPI1}?url={url}&token={raw_text4}"
                      
                                                          
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
@@ -865,8 +885,7 @@ async def txt_handler(bot: Client, m: Message):
                     
             elif '/master.mpd' in url:
              vid_id =  url.split("/")[-2]
-             _mpd_url = f"https://sec1.pw.live/{vid_id}/master.mpd"
-             url =  f"{PWAPI2}?url={urllib.parse.quote(_mpd_url, safe='')}&quality={raw_text2}"
+             url = f"{PWAPI2}?url=https://sec1.pw.live/{vid_id}/master.mpd&quality={raw_text2}"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]} {my_name}'

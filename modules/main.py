@@ -11,8 +11,10 @@ import urllib.parse
 import yt_dlp
 import cloudscraper
 import m3u8
+import io
 import core as helper
 from utils import progress_bar
+from PIL import Image
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER, AUTH_USERS as VARS_AUTH_USERS
 from aiohttp import ClientSession
 from pyromod import listen
@@ -111,6 +113,129 @@ image_list = [
     "https://graph.org/file/9db3816e75336ecc45959-6d49ddd4d0e92f1aae.jpg",
 ]
 # ─────────────────────────────────────────────────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── PDF THUMBNAIL SYSTEM (Pillow-based, Telegram-compliant) ──────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+# Telegram thumbnail requirements:
+#   - Must be a valid JPEG (baseline, not progressive)
+#   - Must be < 200 KB
+#   - Width & height must NOT exceed 320px
+#
+# Persistent thumbnail URL is stored in thumb_config.json so it survives
+# bot restarts and redeploys. Default URL is hardcoded as fallback.
+
+THUMB_CONFIG_FILE = "thumb_config.json"
+_DEFAULT_THUMB_URL = "https://graph.org/file/1507996306870f41e7597-a94a1f6fa63cbd3d14.jpg"
+THUMB_PATH = "pdf_thumb_v2.jpg"
+THUMB_MAX_SIDE = 320
+THUMB_MAX_BYTES = 200 * 1024
+
+
+def _load_thumb_url() -> str:
+    """Load saved thumbnail URL from JSON file; fallback to default."""
+    try:
+        with open(THUMB_CONFIG_FILE, "r") as f:
+            data = json.load(f)
+            return data.get("thumb_url") or _DEFAULT_THUMB_URL
+    except Exception:
+        return _DEFAULT_THUMB_URL
+
+
+def _save_thumb_url(url: str):
+    """Persist thumbnail URL to JSON file."""
+    try:
+        with open(THUMB_CONFIG_FILE, "w") as f:
+            json.dump({"thumb_url": url}, f)
+    except Exception:
+        pass
+
+
+def _delete_thumb_url():
+    """Remove custom thumbnail URL (revert to default)."""
+    try:
+        with open(THUMB_CONFIG_FILE, "w") as f:
+            json.dump({"thumb_url": None}, f)
+    except Exception:
+        pass
+
+
+# In-memory cache of current thumb URL (loaded at startup)
+_current_thumb_url: str = _load_thumb_url()
+
+
+def _process_thumbnail_bytes(raw_bytes: bytes, dest_path: str) -> bool:
+    """Save raw image bytes as a Telegram-compliant thumbnail.
+
+    Always force-re-encodes through Pillow as baseline JPEG to avoid
+    Telegram silently dropping progressive/ICC-profile images.
+    """
+    try:
+        img = Image.open(io.BytesIO(raw_bytes))
+        img.load()
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        w, h = img.size
+        scale = min(THUMB_MAX_SIDE / w, THUMB_MAX_SIDE / h, 1.0)
+        if scale < 1.0:
+            img = img.resize((max(1, int(w * scale)), max(1, int(h * scale))), Image.LANCZOS)
+        quality = 95
+        buf = io.BytesIO()
+        while quality >= 35:
+            buf.seek(0); buf.truncate(0)
+            img.save(buf, format="JPEG", quality=quality, optimize=True, progressive=False)
+            if buf.tell() < THUMB_MAX_BYTES:
+                break
+            quality -= 10
+        with open(dest_path, "wb") as f:
+            f.write(buf.getvalue())
+        return True
+    except Exception as e:
+        print(f"[Thumbnail] Processing failed: {e}")
+        return False
+
+
+def ensure_thumbnail_exists(url: str = None, force: bool = False) -> str | None:
+    """Download & process thumbnail from given URL (or current saved URL).
+    Returns path to compliant JPEG or None on failure.
+    """
+    global _current_thumb_url
+    thumb_url = url or _current_thumb_url or _DEFAULT_THUMB_URL
+
+    if os.path.exists(THUMB_PATH) and not force:
+        try:
+            with Image.open(THUMB_PATH) as im:
+                w, h = im.size
+            size_ok = os.path.getsize(THUMB_PATH) < THUMB_MAX_BYTES
+            dim_ok = w <= THUMB_MAX_SIDE and h <= THUMB_MAX_SIDE
+            if size_ok and dim_ok:
+                return THUMB_PATH
+        except Exception:
+            pass  # fall through and regenerate
+
+    for attempt in range(1, 4):
+        try:
+            resp = requests.get(thumb_url, timeout=15)
+            if resp.status_code == 200 and resp.content:
+                if _process_thumbnail_bytes(resp.content, THUMB_PATH):
+                    return THUMB_PATH
+        except Exception as e:
+            print(f"[Thumbnail] Download attempt {attempt} failed: {e}")
+        time.sleep(1)
+    return None
+
+
+def get_thumbnail() -> str | None:
+    """Return path to Telegram-compliant thumbnail, self-healing if missing."""
+    global THUMB_PATH
+    if not os.path.exists(THUMB_PATH):
+        return ensure_thumbnail_exists(force=True)
+    return THUMB_PATH
+
+
+# Pre-load thumbnail at startup
+_THUMBNAIL_FILE = ensure_thumbnail_exists()
+# ── End Thumbnail System ──────────────────────────────────────────────────────
 
 # ── Failed/Skipped download notice ───────────────────────────────────────────
 async def send_failed_notice(bot, chat_id, vid_id, title, url, reason):
@@ -415,6 +540,328 @@ async def changeapi_handler(client: Client, m: Message):
     )
 
 # ══════════════════════════════════════════════════════════════════════════════
+# ── /Thumbnail COMMAND — Set/View/Remove PDF thumbnail (anyone can use) ───────
+# ══════════════════════════════════════════════════════════════════════════════
+
+@bot.on_message(filters.command(["Thumbnail"]))
+async def thumbnail_menu_handler(bot: Client, m: Message):
+    """Show the thumbnail management menu with 3 buttons."""
+    global _current_thumb_url
+    _current_thumb_url = _load_thumb_url()
+    buttons = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🖼️ Set Thumbnail", callback_data="thumb_set")],
+        [InlineKeyboardButton("👁️ View Thumbnail", callback_data="thumb_view")],
+        [InlineKeyboardButton("🗑️ Remove Thumbnail", callback_data="thumb_remove")],
+    ])
+    await bot.send_photo(
+        chat_id=m.chat.id,
+        photo="https://graph.org/file/1507996306870f41e7597-a94a1f6fa63cbd3d14.jpg",
+        caption=(
+            "🖼️ **PDF Thumbnail Manager**\n\n"
+            "Here you can manage the thumbnail that gets applied to every PDF sent by this bot.\n\n"
+            "📌 **What is a thumbnail?**\n"
+            "A small preview image shown alongside the PDF file in Telegram.\n\n"
+            "⚙️ **Options:**\n"
+            "• **Set Thumbnail** — Upload a new JPG image or send a JPG URL\n"
+            "• **View Thumbnail** — See the current active thumbnail\n"
+            "• **Remove Thumbnail** — Delete custom thumbnail (reverts to default)\n\n"
+            "👇 Choose an option below:"
+        ),
+        reply_markup=buttons
+    )
+
+
+@bot.on_callback_query(filters.regex("^thumb_set$"))
+async def thumb_set_callback(bot: Client, cq):
+    """Ask user to send JPG image or URL."""
+    await cq.answer()
+    await cq.message.edit_caption(
+        caption=(
+            "🖼️ **Set Thumbnail**\n\n"
+            "Send me a **JPG thumbnail** in one of these ways:\n\n"
+            "1️⃣ **Send a JPG image as a file** (as document)\n"
+            "2️⃣ **Send a direct JPG URL** (must end with .jpg)\n"
+            "3️⃣ **Send a JPG photo** directly\n\n"
+            "⚠️ **Size Limits (Telegram Requirements):**\n"
+            "• Image must be a valid **JPEG** format only\n"
+            "• Max dimensions: **320 × 320 px** (auto-resized if bigger)\n"
+            "• Max file size: **200 KB** (auto-compressed)\n\n"
+            "📎 _Send your image now or type /cancel to go back:_"
+        ),
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 Back", callback_data="thumb_back")]
+        ])
+    )
+    try:
+        user_input: Message = await bot.listen(cq.message.chat.id, timeout=120)
+    except Exception:
+        return await cq.message.reply_text("⏰ Timed out. Send /Thumbnail to try again.")
+
+    if user_input.text and user_input.text.strip().lower() == "/cancel":
+        await user_input.delete()
+        return await cq.message.reply_text("❌ Cancelled. Send /Thumbnail to open menu again.")
+
+    raw_bytes = None
+    source_desc = ""
+
+    # Case 1: Document (file upload)
+    if user_input.document:
+        doc = user_input.document
+        mime = (doc.mime_type or "").lower()
+        if "jpeg" not in mime and "jpg" not in mime and not (doc.file_name or "").lower().endswith(".jpg"):
+            await user_input.delete()
+            return await cq.message.reply_text(
+                "❌ **Invalid file type!**\n\n"
+                "Only **JPG/JPEG** files are accepted as thumbnail.\n"
+                "Please send a `.jpg` file only.\n\n"
+                "Send /Thumbnail to try again."
+            )
+        if doc.file_size and doc.file_size > 5 * 1024 * 1024:
+            await user_input.delete()
+            return await cq.message.reply_text(
+                "❌ **File too large!**\n\n"
+                "The uploaded file exceeds **5 MB**. Please send a smaller JPG image.\n\n"
+                "Send /Thumbnail to try again."
+            )
+        dl_path = await user_input.download()
+        with open(dl_path, "rb") as f:
+            raw_bytes = f.read()
+        os.remove(dl_path)
+        source_desc = "uploaded file"
+
+    # Case 2: Photo
+    elif user_input.photo:
+        dl_path = await user_input.download()
+        with open(dl_path, "rb") as f:
+            raw_bytes = f.read()
+        os.remove(dl_path)
+        source_desc = "sent photo"
+
+    # Case 3: URL text
+    elif user_input.text:
+        url_text = user_input.text.strip()
+        if not (url_text.startswith("http://") or url_text.startswith("https://")):
+            await user_input.delete()
+            return await cq.message.reply_text(
+                "❌ **Invalid input!**\n\n"
+                "Please send a valid JPG URL starting with `http://` or `https://`.\n\n"
+                "Send /Thumbnail to try again."
+            )
+        if not url_text.lower().endswith(".jpg") and ".jpg" not in url_text.lower():
+            await user_input.delete()
+            return await cq.message.reply_text(
+                "❌ **Invalid URL!**\n\n"
+                "The URL must point to a **JPG image** (URL must contain `.jpg`).\n\n"
+                "Send /Thumbnail to try again."
+            )
+        # Validate URL is reachable and is a valid image
+        try:
+            resp = requests.get(url_text, timeout=15)
+            if resp.status_code != 200:
+                await user_input.delete()
+                return await cq.message.reply_text(
+                    f"❌ **Could not download image!**\n\n"
+                    f"HTTP Error: `{resp.status_code} {resp.reason}`\n\n"
+                    "Make sure the URL is publicly accessible.\n\n"
+                    "Send /Thumbnail to try again."
+                )
+            content_type = resp.headers.get("content-type", "").lower()
+            if resp.content and len(resp.content) > 5 * 1024 * 1024:
+                await user_input.delete()
+                return await cq.message.reply_text(
+                    "❌ **Image too large!**\n\n"
+                    "The image at that URL exceeds **5 MB**. Please use a smaller JPG.\n\n"
+                    "Send /Thumbnail to try again."
+                )
+            raw_bytes = resp.content
+            _save_thumb_url(url_text)
+            _current_thumb_url = url_text
+        except Exception as e:
+            await user_input.delete()
+            return await cq.message.reply_text(
+                f"❌ **Failed to fetch URL!**\n\n`{e}`\n\nSend /Thumbnail to try again."
+            )
+        source_desc = "URL"
+    else:
+        await user_input.delete()
+        return await cq.message.reply_text(
+            "❌ Unsupported input. Please send a JPG file, photo, or JPG URL.\n\nSend /Thumbnail to try again."
+        )
+
+    await user_input.delete()
+
+    # Process the image bytes into Telegram-compliant thumbnail
+    proc_msg = await cq.message.reply_text("⚙️ Processing thumbnail...")
+    success = _process_thumbnail_bytes(raw_bytes, THUMB_PATH)
+
+    if not success:
+        await proc_msg.delete()
+        return await cq.message.reply_text(
+            "❌ **Failed to process image!**\n\n"
+            "The image could not be converted to a valid JPEG.\n"
+            "Please make sure it is a proper JPG image.\n\n"
+            "Send /Thumbnail to try again."
+        )
+
+    await proc_msg.delete()
+
+    # If source was a file/photo (not URL), we don't have URL to save — that's fine
+    # The processed file is already saved at THUMB_PATH
+
+    await bot.send_photo(
+        chat_id=cq.message.chat.id,
+        photo=THUMB_PATH,
+        caption=(
+            "✅ **Thumbnail Set Successfully!**\n\n"
+            f"📎 Source: {source_desc}\n"
+            "🖼️ Your new thumbnail is now active and will be applied to all PDFs.\n\n"
+            "Send /Thumbnail to manage again."
+        ),
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 Back to Menu", callback_data="thumb_back_new")]
+        ])
+    )
+
+
+@bot.on_callback_query(filters.regex("^thumb_view$"))
+async def thumb_view_callback(bot: Client, cq):
+    """Show current thumbnail with Remove button, or prompt to set one."""
+    await cq.answer()
+    thumb_path = get_thumbnail()
+    saved_url = _load_thumb_url()
+
+    if thumb_path and os.path.exists(thumb_path):
+        await cq.message.edit_caption(
+            caption=(
+                "👁️ **Current Active Thumbnail**\n\n"
+                "This thumbnail is being applied to every PDF sent by the bot.\n\n"
+                "📌 To change it, use **Set Thumbnail**.\n"
+                "🗑️ To remove it, use **Remove Thumbnail**."
+            ),
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🗑️ Remove Thumbnail", callback_data="thumb_remove")],
+                [InlineKeyboardButton("🔙 Back", callback_data="thumb_back")],
+            ])
+        )
+        # Send the actual thumbnail image as a separate message
+        await bot.send_photo(
+            chat_id=cq.message.chat.id,
+            photo=thumb_path,
+            caption="⬆️ This is your current active PDF thumbnail."
+        )
+    else:
+        await cq.message.edit_caption(
+            caption=(
+                "⚠️ **No Thumbnail Set**\n\n"
+                "You haven't set a custom thumbnail yet.\n"
+                "PDFs are being sent without a thumbnail.\n\n"
+                "👇 Set one now:"
+            ),
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🖼️ Set Thumbnail", callback_data="thumb_set")],
+                [InlineKeyboardButton("🔙 Back", callback_data="thumb_back")],
+            ])
+        )
+
+
+@bot.on_callback_query(filters.regex("^thumb_remove$"))
+async def thumb_remove_callback(bot: Client, cq):
+    """Ask confirmation before removing thumbnail."""
+    await cq.answer()
+    await cq.message.edit_caption(
+        caption=(
+            "🗑️ **Remove Thumbnail?**\n\n"
+            "Are you sure you want to remove the current thumbnail?\n\n"
+            "⚠️ This will revert to the **default thumbnail**.\n"
+            "You can always set a new one later."
+        ),
+        reply_markup=InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("✅ Yes, Remove", callback_data="thumb_remove_confirm"),
+                InlineKeyboardButton("❌ No, Keep", callback_data="thumb_back"),
+            ]
+        ])
+    )
+
+
+@bot.on_callback_query(filters.regex("^thumb_remove_confirm$"))
+async def thumb_remove_confirm_callback(bot: Client, cq):
+    """Actually remove the thumbnail."""
+    global _current_thumb_url
+    await cq.answer()
+    _delete_thumb_url()
+    _current_thumb_url = _DEFAULT_THUMB_URL
+    # Delete cached thumbnail file so it gets re-downloaded from default next time
+    if os.path.exists(THUMB_PATH):
+        try:
+            os.remove(THUMB_PATH)
+        except Exception:
+            pass
+    # Pre-load default thumbnail
+    ensure_thumbnail_exists(url=_DEFAULT_THUMB_URL, force=True)
+
+    await cq.message.edit_caption(
+        caption=(
+            "✅ **Thumbnail Removed Successfully!**\n\n"
+            "Your custom thumbnail has been deleted.\n"
+            "The bot will now use the **default thumbnail** for PDFs.\n\n"
+            "Send /Thumbnail to set a new one anytime."
+        ),
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🖼️ Set New Thumbnail", callback_data="thumb_set")],
+            [InlineKeyboardButton("🔙 Back to Menu", callback_data="thumb_back")],
+        ])
+    )
+
+
+@bot.on_callback_query(filters.regex("^thumb_back$"))
+async def thumb_back_callback(bot: Client, cq):
+    """Go back to main thumbnail menu (edit existing message)."""
+    await cq.answer()
+    buttons = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🖼️ Set Thumbnail", callback_data="thumb_set")],
+        [InlineKeyboardButton("👁️ View Thumbnail", callback_data="thumb_view")],
+        [InlineKeyboardButton("🗑️ Remove Thumbnail", callback_data="thumb_remove")],
+    ])
+    await cq.message.edit_caption(
+        caption=(
+            "🖼️ **PDF Thumbnail Manager**\n\n"
+            "Here you can manage the thumbnail that gets applied to every PDF sent by this bot.\n\n"
+            "📌 **What is a thumbnail?**\n"
+            "A small preview image shown alongside the PDF file in Telegram.\n\n"
+            "⚙️ **Options:**\n"
+            "• **Set Thumbnail** — Upload a new JPG image or send a JPG URL\n"
+            "• **View Thumbnail** — See the current active thumbnail\n"
+            "• **Remove Thumbnail** — Delete custom thumbnail (reverts to default)\n\n"
+            "👇 Choose an option below:"
+        ),
+        reply_markup=buttons
+    )
+
+
+@bot.on_callback_query(filters.regex("^thumb_back_new$"))
+async def thumb_back_new_callback(bot: Client, cq):
+    """Send a fresh thumbnail menu (used after set, where we can't edit photo->caption)."""
+    await cq.answer()
+    buttons = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🖼️ Set Thumbnail", callback_data="thumb_set")],
+        [InlineKeyboardButton("👁️ View Thumbnail", callback_data="thumb_view")],
+        [InlineKeyboardButton("🗑️ Remove Thumbnail", callback_data="thumb_remove")],
+    ])
+    await bot.send_photo(
+        chat_id=cq.message.chat.id,
+        photo="https://graph.org/file/1507996306870f41e7597-a94a1f6fa63cbd3d14.jpg",
+        caption=(
+            "🖼️ **PDF Thumbnail Manager**\n\n"
+            "Here you can manage the thumbnail that gets applied to every PDF sent by this bot.\n\n"
+            "👇 Choose an option below:"
+        ),
+        reply_markup=buttons
+    )
+
+# ── End /Thumbnail Command ────────────────────────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════════════
 
 @bot.on_message(filters.command(["Habibi"]) )
 async def txt_handler(bot: Client, m: Message):
@@ -660,7 +1107,8 @@ async def txt_handler(bot: Client, m: Message):
                         await _send_downloading_sticker()
                         ka = await helper.download(url, name)
                         await _send_uploading_sticker()
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
+                        _pdf_thumb = get_thumbnail()
+                        copy = await bot.send_document(chat_id=m.chat.id, document=ka, caption=cc1, thumb=_pdf_thumb)
                         await _delete_uploading_sticker()
                         count+=1
                         os.remove(ka)
@@ -692,7 +1140,8 @@ async def txt_handler(bot: Client, m: Message):
             # Send the PDF document
                             await asyncio.sleep(4)
                             await _send_uploading_sticker()
-                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                            _pdf_thumb = get_thumbnail()
+                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1, thumb=_pdf_thumb)
                             await _delete_uploading_sticker()
                             count += 1
 
@@ -713,7 +1162,8 @@ async def txt_handler(bot: Client, m: Message):
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
                         await _send_uploading_sticker()
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                        _pdf_thumb = get_thumbnail()
+                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1, thumb=_pdf_thumb)
                         await _delete_uploading_sticker()
                         count += 1
                         os.remove(f'{name}.pdf')

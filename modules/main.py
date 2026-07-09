@@ -254,7 +254,7 @@ async def send_failed_notice(bot, chat_id, vid_id, title, url, reason):
             msg,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(text="👑ᴏᴡɴᴇʀ", url="https://t.me/JapaneseFury")]
+                [InlineKeyboardButton(text="👑ᴏᴡɴᴇʀ", url="https://t.me/SmartBoy_ApnaMS")]
             ])
         )
     except Exception as e:
@@ -958,7 +958,7 @@ async def txt_handler(bot: Client, m: Message):
             res = "UN"
     
     # Step 4 — credit name
-    await _send_step_sticker_h("CAACAgIAAxkBAAFMOpNqK-OEEouY2T2dqp8VSY5sY6dduwACKxwAApgdcUrmLxAE_NhI1TwE")
+    await _send_step_sticker_h("CAACAgQAAxkBAAKl1GpPIdBs5jAc2OxFtID5XbbOyxd8AALlEQACpiY5UVipBboHmw0fPAQ")
     await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /MS ꜰᴏʀ ᴜꜱɪɴɢ ᴍʏ ɴᴀᴍᴇ🌚.\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n@SmartBoy_ApnaMS **")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
@@ -980,7 +980,7 @@ async def txt_handler(bot: Client, m: Message):
         MR = raw_text4
         
     # Step 6 — Thumb
-    await _send_step_sticker_h("CAACAgUAAxkBAAFMOqFqK-PIhePM-y_ZOMRtG9Ul-C0NbQACiB4AAid7sVaDpGzedWE0LzwE")
+    await _send_step_sticker_h("CAACAgQAAxkBAAKlzmpPIWJ_9xRSMDuU10OTXYQbGHDxAAJ_EwACYREJUN0DWBoRZbWRPAQ")
     await editable.edit("**ɴᴏᴡ ꜱᴇɴᴅ ᴛʜᴇ ᴛʜᴜᴍʙɴᴀɪʟ ᴜʀʟ ᴏʀ**\n\nꜱᴇɴᴅ `no` ꜰᴏʀ ᴡɪᴛʜᴏᴜᴛ ᴛʜɪꜱ\n\n⬩➤ꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ\nʜᴛᴛᴘꜱ://ɢʀᴀᴘʜ.ᴏʀɢ/ꜰɪʟᴇxʏᴢ.ᴊᴘɢ")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text

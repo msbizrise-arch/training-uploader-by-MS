@@ -126,7 +126,7 @@ image_list = [
 # bot restarts and redeploys. Default URL is hardcoded as fallback.
 
 THUMB_CONFIG_FILE = "thumb_config.json"
-_DEFAULT_THUMB_URL = "https://graph.org/file/1507996306870f41e7597-a94a1f6fa63cbd3d14.jpg"
+_DEFAULT_THUMB_URL = "https://graph.org/file/dfed257d0a5380073a6aa-535d7f5f506ffcfa8f.jpg"
 THUMB_PATH = "pdf_thumb_v2.jpg"
 THUMB_MAX_SIDE = 320
 THUMB_MAX_BYTES = 200 * 1024
@@ -1111,8 +1111,8 @@ async def txt_handler(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**🪩 ᴠɪᴅ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} {res} @Toxic_Official_1.mkv\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━━🧡 ᴛᴇᴀᴍ ᴛᴏxɪᴄ 💜━━━━✿**'
-                cc1 = f'**💾 ᴘᴅꜰ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} @Toxic_Official_1.pdf\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━━━💛 ᴛᴇᴀᴍ ᴛᴏxɪᴄ 🤍━━━━✿**'
+                cc = f'**🪩 ᴠɪᴅ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} {res} @Toxic_Official_1.mkv\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
+                cc1 = f'**💾 ᴘᴅꜰ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} @Toxic_Official_1.pdf\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
                     
                 
                 if "drive" in url:
@@ -1186,7 +1186,7 @@ async def txt_handler(bot: Client, m: Message):
                         continue                       
                           
                 else:
-                    Show = f"✰🖥️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴡᴀɪᴛ..🤖🚀 »\n\n📝 ᴛɪᴛᴇʟ:- `{name}\n\n📹 Qᴜᴀʟɪᴛʏ » {raw_text2}`\n\n**🔗 ᴜʀʟ »** `{url}`\n\n**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ🧸: ✦ @SmartBoy_ApnaMS ❖\n\n**✿━━━💜 ᴛᴇᴀᴍ ᴛᴏxɪᴄ 💛━━━━✿**"
+                    Show = f"✰🖥️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴡᴀɪᴛ..🤖🚀 »\n\n📝 ᴛɪᴛᴇʟ:- `{name}\n\n📹 Qᴜᴀʟɪᴛʏ » {raw_text2}`\n\n**🔗 ᴜʀʟ »** `{url}`\n\n**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ🧸: ✦ @SmartBoy_ApnaMS ❖\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**"
                     prog = await m.reply_text(Show)
                     await _send_downloading_sticker()
                     res_file = await helper.download_video(url, cmd, name)

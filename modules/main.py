@@ -383,7 +383,7 @@ async def start(client: Client, msg: Message):
     await asyncio.sleep(1)
     await start_message.edit_text(
         Data.START.format(msg.from_user.mention) +
-        "ʙᴏᴛ ꜱᴛᴀʀᴛᴇᴅ ʜᴀʙɪʙɪ... ᴄᴏᴍᴍᴀɴᴅ ɪꜱ ᴘʀɪᴠᴀᴛᴇ ᴅᴇᴀʀ.🌚**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ @JapaneseFury**🔍\n\n"
+        "ʙᴏᴛ ꜱᴛᴀʀᴛᴇᴅ ʜᴀʙɪʙɪ... ᴄᴏᴍᴍᴀɴᴅ ɪꜱ ᴘʀɪᴠᴀᴛᴇ ᴅᴇᴀʀ.🌚**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ @SmartBoy_ApnaMS**🔍\n\n"
         "ᴘʀᴏɢʀᴇꜱꜱ:[🟩🟩🟩🟩🟩🟩🟩🟩🟩] 100%\n\n"
     )
 
@@ -402,7 +402,8 @@ async def start(client: Client, msg: Message):
                 f"⬩➤**ɪ'ᴍ ʀɪᴄʜ ᴜᴘʟᴏᴀᴅᴇʀ ʙᴏᴛ**\n\n"
                 f"⬩➤**ɪ ᴄᴀɴ ᴅᴏᴡɴʟᴏᴀᴅ ᴠɪᴅᴇᴏꜱ & ᴘᴅꜰꜱ ꜰʀᴏᴍ ʏᴏᴜʀ ᴛᴇxᴛ ꜰɪʟᴇ ᴀɴᴅ ꜱᴇɴᴅ ᴛʜᴇᴍ ᴛᴏ ʏᴏᴜ.**\n\n"
                 f"⬩➤**ʟᴇᴛ'ꜱ ꜱᴛᴀʀᴛꜱ, ꜱᴇɴᴅ /Habibi ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴍᴇ ʜᴜʀʀʏ📖.**\n\n"
-                f"⬩➤**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ : @JapaneseFury 🗿**."
+                f"⬩➤**ᴜꜱᴇ /Thumbnail ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ꜱᴇᴛ ᴛʜᴜᴍʙɴᴀɪʟ ᴏɴ ᴘᴅꜰꜱ😍.**\n\n"
+                f"⬩➤**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ : @SmartBoy_ApnaMS 🗿**."
             )
         else:
             caption = (
@@ -411,7 +412,7 @@ async def start(client: Client, msg: Message):
                 f"⬩➤**ɪ'ᴍ ʀɪᴄʜ ᴜᴘʟᴏᴀᴅᴇʀ ʙᴏᴛ\n\n"
                 f"⬩➤**ɪ ᴄᴀɴ ᴅᴏᴡɴʟᴏᴀᴅ ᴠɪᴅᴇᴏꜱ & ᴘᴅꜰꜱ ꜰʀᴏᴍ ʏᴏᴜʀ ᴛᴇxᴛ ꜰɪʟᴇ ᴀɴᴅ ꜱᴇɴᴅ ᴛʜᴇᴍ ᴛᴏ ʏᴏᴜ!**\n\n"
                 f"⬩➤**🆓 ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴜꜱɪɴɢ ᴀ 𝗳𝗿𝗲𝗲 ᴠᴇʀꜱɪᴏɴ!**\n"
-                f"⬩➤**ᴡᴀɴɴᴀ ᴀ ᴘʀᴇᴍɪᴜᴍ? ᴄᴏɴᴛᴀᴄᴛ:** @JapaneseFury 💎\n"
+                f"⬩➤**ᴡᴀɴɴᴀ ᴀ ᴘʀᴇᴍɪᴜᴍ? ᴄᴏɴᴛᴀᴄᴛ:** @SmartBoy_ApnaMS 💎\n"
             )
         await client.send_photo(chat_id=msg.chat.id, photo=random.choice(image_list), caption=caption)
     except Exception:
@@ -881,7 +882,7 @@ async def txt_handler(bot: Client, m: Message):
     await input.delete(True)
     await bot.send_document(OWNER, x)
     file_name, ext = os.path.splitext(os.path.basename(x))
-    credit = f"@JapaneseFury"
+    credit = f"@SmartBoy_ApnaMS"
     token = f"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYxNTE3MzAuMTI2LCJkYXRhIjp7Il9pZCI6IjYzMDRjMmY3Yzc5NjBlMDAxODAwNDQ4NyIsInVzZXJuYW1lIjoiNzc2MTAxNzc3MCIsImZpcnN0TmFtZSI6IkplZXYgbmFyYXlhbiIsImxhc3ROYW1lIjoic2FoIiwib3JnYW5pemF0aW9uIjp7Il9pZCI6IjVlYjM5M2VlOTVmYWI3NDY4YTc5ZDE4OSIsIndlYnNpdGUiOiJwaHlzaWNzd2FsbGFoLmNvbSIsIm5hbWUiOiJQaHlzaWNzd2FsbGFoIn0sImVtYWlsIjoiV1dXLkpFRVZOQVJBWUFOU0FIQEdNQUlMLkNPTSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNTU0NjkzMH0.iImf90mFu_cI-xINBv4t0jVz-rWK1zeXOIwIFvkrS0M"
     try:    
         with open(x, "r") as f:
@@ -958,7 +959,7 @@ async def txt_handler(bot: Client, m: Message):
     
     # Step 4 — credit name
     await _send_step_sticker_h("CAACAgIAAxkBAAFMOpNqK-OEEouY2T2dqp8VSY5sY6dduwACKxwAApgdcUrmLxAE_NhI1TwE")
-    await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /MS ꜰᴏʀ ᴜꜱɪɴɢ ᴍʏ ɴᴀᴍᴇ🌚.\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n@JapaneseFury **")
+    await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /MS ꜰᴏʀ ᴜꜱɪɴɢ ᴍʏ ɴᴀᴍᴇ🌚.\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n@SmartBoy_ApnaMS **")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -1043,6 +1044,18 @@ async def txt_handler(bot: Client, m: Message):
 
             Vxy = links[i][1].replace("file/d/","uc?export=download&id=").replace("www.youtube-nocookie.com/embed", "youtu.be").replace("?modestbranding=1", "").replace("/view?usp=sharing","")
             url = "https://" + Vxy
+
+            # ── NEW FEATURE: Per-video thumbnail via "||" separator ────────────
+            # TXT format supported: Title:VideoURL||ThumbnailURL
+            # If "||" is present in the URL part, split it into the actual
+            # video URL and its own thumbnail URL. Fully backward compatible:
+            # if "||" is not present, url stays exactly as before.
+            per_video_thumb_url = ""
+            if "||" in url:
+                _url_part, _thumb_part = url.split("||", 1)
+                url = _url_part.strip()
+                per_video_thumb_url = _thumb_part.strip()
+            # ─────────────────────────────────────────────────────────────────
             if "visionias" in url:
                 async with ClientSession() as session:
                     async with session.get(url, headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'Accept-Language': 'en-US,en;q=0.9', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Pragma': 'no-cache', 'Referer': 'http://www.visionias.in/', 'Sec-Fetch-Dest': 'iframe', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'cross-site', 'Upgrade-Insecure-Requests': '1', 'User-Agent': 'Mozilla/5.0 (Linux; Android 12; RMX2121) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36', 'sec-ch-ua': '"Chromium";v="107", "Not=A?Brand";v="24"', 'sec-ch-ua-mobile': '?1', 'sec-ch-ua-platform': '"Android"',}) as resp:
@@ -1173,14 +1186,44 @@ async def txt_handler(bot: Client, m: Message):
                         continue                       
                           
                 else:
-                    Show = f"✰🖥️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴡᴀɪᴛ..🤖🚀 »\n\n📝 ᴛɪᴛᴇʟ:- `{name}\n\n📹 Qᴜᴀʟɪᴛʏ » {raw_text2}`\n\n**🔗 ᴜʀʟ »** `{url}`\n\n**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ🧸: ✦ @JapaneseFury ❖\n\n**✿━━━💜 ᴛᴇᴀᴍ ᴛᴏxɪᴄ 💛━━━━✿**"
+                    Show = f"✰🖥️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴡᴀɪᴛ..🤖🚀 »\n\n📝 ᴛɪᴛᴇʟ:- `{name}\n\n📹 Qᴜᴀʟɪᴛʏ » {raw_text2}`\n\n**🔗 ᴜʀʟ »** `{url}`\n\n**ʙᴏᴛ ᴍᴀᴅᴇ ʙʏ🧸: ✦ @SmartBoy_ApnaMS ❖\n\n**✿━━━💜 ᴛᴇᴀᴍ ᴛᴏxɪᴄ 💛━━━━✿**"
                     prog = await m.reply_text(Show)
                     await _send_downloading_sticker()
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
                     await prog.delete(True)
                     await _send_uploading_sticker()
-                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+
+                    # ── NEW FEATURE: use per-video "||" thumbnail when user
+                    # chose "no" (skip) at Step 6. A manually supplied Step 6
+                    # thumbnail always takes priority; the per-video "||"
+                    # thumbnail is used only when the user sent "no" there.
+                    # If no per-video thumbnail is available either, falls
+                    # back to the existing "no" behaviour (ffmpeg-generated
+                    # frame), so nothing breaks for old-format txt files.
+                    effective_thumb = thumb
+                    per_video_thumb_file = None
+                    if thumb == "no" and per_video_thumb_url:
+                        try:
+                            per_video_thumb_file = f"{name}_thumb.jpg"
+                            getstatusoutput(f"wget '{per_video_thumb_url}' -O '{per_video_thumb_file}'")
+                            if os.path.exists(per_video_thumb_file) and os.path.getsize(per_video_thumb_file) > 0:
+                                effective_thumb = per_video_thumb_file
+                            else:
+                                per_video_thumb_file = None
+                        except Exception:
+                            per_video_thumb_file = None
+
+                    await helper.send_vid(bot, m, cc, filename, effective_thumb, name, prog)
+
+                    # Clean up the temporary per-video thumbnail after upload
+                    if per_video_thumb_file and os.path.exists(per_video_thumb_file):
+                        try:
+                            os.remove(per_video_thumb_file)
+                        except Exception:
+                            pass
+                    # ─────────────────────────────────────────────────────────
+
                     await _delete_uploading_sticker()
                     count += 1
                     time.sleep(1)

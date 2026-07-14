@@ -126,7 +126,7 @@ image_list = [
 # bot restarts and redeploys. Default URL is hardcoded as fallback.
 
 THUMB_CONFIG_FILE = "thumb_config.json"
-_DEFAULT_THUMB_URL = "https://graph.org/file/dfed257d0a5380073a6aa-535d7f5f506ffcfa8f.jpg"
+_DEFAULT_THUMB_URL = ""
 THUMB_PATH = "pdf_thumb_v2.jpg"
 THUMB_MAX_SIDE = 320
 THUMB_MAX_BYTES = 200 * 1024
@@ -340,7 +340,7 @@ async def main():
         
 class Data:
     START = (
-        "🌟 ᴡᴇʟᴄᴏᴍᴇ ʜᴀʙɪʙɪ🤭 {0}! 🌟\n\n"
+        "🌟 ᴡᴇʟᴄᴏᴍᴇ ʜᴀʙɪʙɪ🌚 {0}! 🌟\n\n"
     )
 # Define the start command handler
 @bot.on_message(filters.command("start"))
@@ -397,7 +397,7 @@ async def start(client: Client, msg: Message):
     try:
         if msg.chat.id in auth_users:
             caption = (
-                f"⬩➤**🤭 ʜᴇʟʟᴏ ʜᴀʙɪʙɪ!**\n\n"
+                f"⬩➤**🌚 ʜᴇʟʟᴏ ʜᴀʙɪʙɪ!**\n\n"
                 f"⬩➤**ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ꜱᴇʀᴠɪᴄᴇ!**\n\n"
                 f"⬩➤**ɪ'ᴍ ʀɪᴄʜ ᴜᴘʟᴏᴀᴅᴇʀ ʙᴏᴛ**\n\n"
                 f"⬩➤**ɪ ᴄᴀɴ ᴅᴏᴡɴʟᴏᴀᴅ ᴠɪᴅᴇᴏꜱ & ᴘᴅꜰꜱ ꜰʀᴏᴍ ʏᴏᴜʀ ᴛᴇxᴛ ꜰɪʟᴇ ᴀɴᴅ ꜱᴇɴᴅ ᴛʜᴇᴍ ᴛᴏ ʏᴏᴜ.**\n\n"
@@ -407,7 +407,7 @@ async def start(client: Client, msg: Message):
             )
         else:
             caption = (
-                f"⬩➤**🤩ʜᴇʟʟᴏ** {msg.from_user.first_name} **ᴡᴇʟᴄᴏᴍᴇ ʜᴀʙɪʙɪ !**\n\n"
+                f"⬩➤**🥰ʜᴇʟʟᴏ** {msg.from_user.first_name} **ᴡᴇʟᴄᴏᴍᴇ ʜᴀʙɪʙɪ !**\n\n"
                 f"⬩➤**ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ꜱᴇʀᴠɪᴄᴇ!**\n\n"
                 f"⬩➤**ɪ'ᴍ ʀɪᴄʜ ᴜᴘʟᴏᴀᴅᴇʀ ʙᴏᴛ\n\n"
                 f"⬩➤**ɪ ᴄᴀɴ ᴅᴏᴡɴʟᴏᴀᴅ ᴠɪᴅᴇᴏꜱ & ᴘᴅꜰꜱ ꜰʀᴏᴍ ʏᴏᴜʀ ᴛᴇxᴛ ꜰɪʟᴇ ᴀɴᴅ ꜱᴇɴᴅ ᴛʜᴇᴍ ᴛᴏ ʏᴏᴜ!**\n\n"
@@ -421,7 +421,7 @@ async def start(client: Client, msg: Message):
 
 @bot.on_message(filters.command(["stop"]) )
 async def restart_handler(_, m):
-    await m.reply_text("🎃**ꜱᴛᴏᴘᴘᴇᴅ**🎃", True)
+    await m.reply_text("🌚**ꜱᴛᴏᴘᴘᴇᴅ**🌚", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -873,10 +873,10 @@ async def txt_handler(bot: Client, m: Message):
             f"ᴏᴏᴘꜱꜱ! ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀ ᴘʀᴇᴍɪᴜᴍ ᴍᴇᴍʙᴇʀ.\n"
             f"ᴡᴀɴɴᴀ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ? ᴄᴏɴᴛᴀᴄᴛ ᴏᴡɴᴇʀ ꜰɪʀꜱᴛ!\n\n"
             f"**ʏᴏᴜʀ ᴜꜱᴇʀ ɪᴅ:** `{m.chat.id}`</blockquote>\n\n"
-            f"👉 ᴄᴏɴᴛᴀᴄᴛ: @JapaneseFury"
+            f"👉 ᴄᴏɴᴛᴀᴄᴛ: @SmartBoy_ApnaMS"
         )
     # ─────────────────────────────────────────────────────────────────────────
-    editable = await m.reply_text(f"**🔹ʜᴀʙɪʙɪ ɪ ᴀᴍ ᴘᴏᴡᴇꜰᴜʟ ꜰᴜʀʏ ᴛxᴛ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ʙᴏᴛ📥.**\n🔹**ꜱᴇɴᴅ ᴍᴇ ᴛʜᴇ ᴛxᴛ ꜰɪʟᴇ ᴀɴᴅ ᴊᴜꜱᴛ ᴡᴀɪᴛ ᴀɴᴅ ᴡᴀᴛᴄʜ😎.**")
+    editable = await m.reply_text(f"**🔹✨ʜᴀʙɪʙɪ ɪ ᴀᴍ ᴘᴏᴡᴇꜰᴜʟ ꜰᴜʀʏ ᴛxᴛ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ʙᴏᴛ📥.**\n🔹**ꜱᴇɴᴅ ᴍᴇ ᴛʜᴇ ᴛxᴛ ꜰɪʟᴇ ᴀɴᴅ ᴊᴜꜱᴛ ᴡᴀɪᴛ ᴀɴᴅ ᴡᴀᴛᴄʜ😎.**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)

@@ -1111,8 +1111,8 @@ async def txt_handler(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} {res}MS Bro.mp4\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
-                cc1 = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} MS Bro.pdf\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
+                cc = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} {res}MS Bro.mp4\n\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}**'
+                cc1 = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} MS Bro.pdf\n\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}**'
                     
                 
                 if "drive" in url:

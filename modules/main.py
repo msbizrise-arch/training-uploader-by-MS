@@ -269,7 +269,7 @@ bot = Client(
     bot_token=BOT_TOKEN
 )
 
-my_name = "@Toxic_Official_1"
+my_name = "–MS BRO"
 
 cookies_file_path = os.getenv("COOKIES_FILE_PATH", "/modules/youtube_cookies.txt")
 
@@ -1083,7 +1083,7 @@ async def txt_handler(bot: Client, m: Message):
              #id =  url.split("/")[-2]
              #url = f"https://anonymouspwplayerrr-31d6706c7a3b.herokuapp.com/pw?url={url}?token={raw_text4}"
             #url = f"https://madxapi-d0cbf6ac738c.herokuapp.com/{id}/master.m3u8?token={raw_text4}"
-            elif"d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
+            elif "master.mpd" in url or "sec1.pw.live" in url or "parentId" in url:
              url = f"{PWAPI1}?url={url}&token={raw_text4}"
                      
                                                          
@@ -1111,8 +1111,8 @@ async def txt_handler(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**🪩 ᴠɪᴅ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} {res} @Toxic_Official_1.mkv\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
-                cc1 = f'**💾 ᴘᴅꜰ_ɪᴅ: {str(count).zfill(3)}.\n\n📝 ᴛɪᴛᴇʟ: {name1} @Toxic_Official_1.pdf\n\n<pre><code>📚 ʙᴀᴛᴄʜ ɴᴀᴍᴇ: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
+                cc = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} {res}MS Bro.mp4\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
+                cc1 = f'**[{str(count).zfill(3)}.]📝 Titel: {name1} MS Bro.pdf\n\n<pre><code>📚 Batch Name: {b_name}</code></pre>\n\n📥 ᴜᴘʟᴏᴀᴅ ʙʏ♠:\n{CR}\n\n**✿━━💎Qᴜᴀʟɪᴛʏ ᴇᴅᴜᴄᴀᴛɪᴏɴ💎━━━✿**'
                     
                 
                 if "drive" in url:

@@ -912,7 +912,7 @@ async def txt_handler(bot: Client, m: Message):
     # ─────────────────────────────────────────────────────────────────────────
 
     # Step 1 — from where
-    await _send_step_sticker_h("CAACAgQAAxkBAAFLw2xqJYZ7bpEUbaLHEV_yYaduL1twAwACVRUAAnOxYFCUkyy9GwdwoTsE")
+    await _send_step_sticker_h("CAACAgIAAxkBAAFO5etqU26DIxnjixETP9kJpd5JyF0Z4wACRgADUomRI_j-5eQK1QodPAQ")
     await editable.edit(f"ᴛᴏᴛᴀʟ ʟɪɴᴋꜱ ᴅᴇᴛᴇᴄᴛᴇᴅ: **{len(links)}**\n\nꜱᴇɴᴅ ᴍᴇ ᴡʜᴇʀᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ🤔 ꜱᴛᴀʀᴛɪɴɢ ɪꜱ **1**")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
@@ -923,7 +923,7 @@ async def txt_handler(bot: Client, m: Message):
         arg = 1
 
     # Step 2 — batch name
-    await _send_step_sticker_h("CAACAgUAAxkBAAFMOndqK-IFC70-Oeo97HHD4Zm6iFoYnQAChg8AAv6cqVc2WKeTYejtVzwE")
+    await _send_step_sticker_h("CAACAgUAAxkBAAFPD9FqVayJlUBXUOgsMnQRjIO4WafQMAAC_hEAAjxo-Va99hpseLpmQj0E")
     await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ʙᴀᴛᴄʜ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /UP ꜱᴏ ᴛʜᴀᴛ ɪ ᴡɪʟʟ ᴜꜱᴇ ʏᴏᴜʀ ᴀᴄᴛᴜᴀʟʟ ꜰɪʟᴇ ɴᴀᴍᴇ😉.**")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
@@ -934,7 +934,7 @@ async def txt_handler(bot: Client, m: Message):
         b_name = raw_text0
 
     # Step 3 — resolution
-    await _send_step_sticker_h("CAACAgUAAxkBAAFMOpFqK-M3daLZlZu6iQuVyieiUHvdDgAC4BMAAu3sYFVtPBA29KRzbDwE")
+    await _send_step_sticker_h("CAACAgQAAxkBAAFO5e1qU2625Sf-TirsP5FMX9EpX7xSTAAC1xEAAsLgMFCN1i1HvJLGUjwE")
     await editable.edit("**ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n🔹⬩➤ 144\n🔹⬩➤ 250\n🔹⬩➤ 360\n🔹⬩➤ 480\n🔹⬩➤ 720\n🔹⬩➤ 1080\n\nᴀꜱ ʏᴏᴜʀ ᴡɪꜱʜ ʜᴀʙɪʙɪ🤭.**")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
@@ -969,7 +969,7 @@ async def txt_handler(bot: Client, m: Message):
         CR = raw_text3
         
     # Step 5 — PW Token
-    await _send_step_sticker_h("CAACAgUAAxkBAAFMOpVqK-OeK8CWnShSKaCRb3t66qzs-QACiyIAAr9AqFbycr6vwdJUgjwE")
+    await _send_step_sticker_h("CAACAgQAAxkBAAFPEAFqVa-7DV-ta7xtJyzNttGfT7LTFQACuRUAAuK0-FLYEwjcN9sUFz0E")
     await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ᴘᴡ ᴛᴏᴋᴇɴ ꜰᴏʀ 𝐌𝐏𝐃 𝐔𝐑𝐋 ᴏʀ\n\nꜱᴇɴᴅ /VIP ꜰᴏʀ ᴄᴏɴᴛɪɴᴜᴇ ᴡɪᴛʜᴏᴜᴛ ᴛᴏᴋᴇɴ🎀.**")
     input4: Message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
@@ -980,7 +980,7 @@ async def txt_handler(bot: Client, m: Message):
         MR = raw_text4
         
     # Step 6 — Thumb
-    await _send_step_sticker_h("CAACAgQAAxkBAAKlzmpPIWJ_9xRSMDuU10OTXYQbGHDxAAJ_EwACYREJUN0DWBoRZbWRPAQ")
+    await _send_step_sticker_h("CAACAgQAAxkBAAFPEApqVbAKAhZTk3etzq80A9F0Hu1JvQACZxUAAvLueVAlGyqUr3B0Pz0E")
     await editable.edit("**ɴᴏᴡ ꜱᴇɴᴅ ᴛʜᴇ ᴛʜᴜᴍʙɴᴀɪʟ ᴜʀʟ ᴏʀ**\n\nꜱᴇɴᴅ `no` ꜰᴏʀ ᴡɪᴛʜᴏᴜᴛ ᴛʜɪꜱ\n\n⬩➤ꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ\nʜᴛᴛᴘꜱ://ɢʀᴀᴘʜ.ᴏʀɢ/ꜰɪʟᴇxʏᴢ.ᴊᴘɢ")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
